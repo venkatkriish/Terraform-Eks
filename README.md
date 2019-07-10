@@ -18,7 +18,7 @@ This is the repo for terraform EKS cluster
 ## Usage example
 
 A full example leveraging other community modules is contained in the [examples/basic directory](https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/examples/basic). Here's the gist of using it via the Terraform registry:
-
+```
 module "eks-cluster" {
   #Replace the URL with the link of your module
   source = "./eks"
@@ -50,3 +50,9 @@ module "eks-cluster" {
   nodes-group-tag-sec-arg = "ondemand"
 
 }
+```
+## Other documentation
+
+- [Autoscaling](docs/autoscaling.md): How to enable worker node autoscaling.
+- [Enable Docker Bridge Network](docs/enable-docker-bridge-network.md): How to enable the docker bridge network when using the EKS-optimized AMI, which disables it by default.
+
