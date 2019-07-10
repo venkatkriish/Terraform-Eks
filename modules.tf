@@ -4,7 +4,7 @@ provider "aws" {
 
 module "infravpc" {
   #Replace the URL with the link of your module
-  source = "../vpc"
+  source = "./vpc"
   vpc_cidr = "10.20.0.0/16"
   aws_region = "eu-west-1"
   subnets_cidr = ["10.20.0.0/22", "10.20.4.0/22", "10.20.8.0/22"]
@@ -13,7 +13,7 @@ module "infravpc" {
 }
 module "jd-eks-tools" {
   #Replace the URL with the link of your module
-  source = "../eks"
+  source = "./eks"
   cluster-name = "testcluster"
   master-sg-vpc = "${module.infravpc.vpc_id}"
   master-subnet-ids = "${module.infravpc.public-subnet-ids}"

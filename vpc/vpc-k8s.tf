@@ -4,7 +4,7 @@ resource "aws_vpc" "jd-k8s-vpc" {
   tags {
    KubernetesCluster = "${var.cluster_name}"
    Name              = "${var.cluster_name}"
-   "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
+   "kubernetes.io/cluster/${var.cluster_name}" = "owned"
  }
 }
 
@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "igw" {
   tags {
     KubernetesCluster = "${var.cluster_name}"
     Name = "${var.cluster_name}"
-    "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
 # creating nat gateways for private subnets
@@ -24,10 +24,10 @@ resource "aws_nat_gateway" "nat" {
     allocation_id = "${element(aws_eip.nat_eip.*.id,count.index)}"
     subnet_id      = "${element(aws_subnet.public.*.id,count.index)}"
     tags {
-        KubernetesCluster = "${var.cluster_name}"
-        Name = ""${var.aws_region}"${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
-        "kubernetes.io/cluster/"${var.cluster_name}" = "owned"
-    }
+    KubernetesCluster = "${var.cluster_name}"
+    Name = "${var.cluster_name}"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+  }
 }
 
 # Subnets : public
@@ -39,9 +39,9 @@ resource "aws_subnet" "public" {
   tags {
     AssociatedNatgateway  = "${element(var.natgatewayips,count.index)}"
     KubernetesCluster = "${var.cluster_name}"
-    Name = "utility-"${var.aws_region}"${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
+    Name = "utility-${var.aws_region}${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
     SubnetType = "Utility"
-    "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
     "kubernetes.io/role/elb" = "1"
   }
 }
@@ -57,7 +57,7 @@ resource "aws_route_table" "public_rt" {
   tags {
     KubernetesCluster = "${var.cluster_name}"
     Name = "${var.cluster_name}"
-    "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
     "kubernetes.io/kops/role" = "public"
   }
 }
@@ -78,9 +78,9 @@ resource "aws_subnet" "private" {
   availability_zone = "${element(var.azs,count.index)}"
   tags {
     KubernetesCluster = "${var.cluster_name}"
-    Name = ""${var.aws_region}"${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
+    Name = "${var.aws_region}${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
     SubnetType = "Private"
-    "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
@@ -95,9 +95,9 @@ resource "aws_route_table" "route-nat" {
 
   tags {
     KubernetesCluster = "${var.cluster_name}"
-    Name = "private-"${var.aws_region}"${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
-    "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
-    "kubernetes.io/kops/role"  =  "private-"${var.aws_region}"${element(var.azs-variables-ps,count.index)}"
+    Name = "private-${var.aws_region}${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    "kubernetes.io/kops/role"  =  "private-${var.aws_region}${element(var.azs-variables-ps,count.index)}"
   }
 }
 
@@ -109,8 +109,8 @@ resource "aws_eip" "nat_eip" {
   vpc      = true
   tags {
     KubernetesCluster = "${var.cluster_name}"
-    Name = ""${var.aws_region}"${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
-    "kubernetes.io/cluster/"${var.cluster_name}"" = "owned"
+    Name = "${var.aws_region}${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
 
   }
 }

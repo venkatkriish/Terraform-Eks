@@ -1,6 +1,9 @@
 variable "aws_region" {
 	default = "us-east-1"
 }
+variable "cluster_name" {
+	default = "testcluster"
+}
 
 variable "vpc_cidr" {
 	default = "10.20.0.0/16"
@@ -22,9 +25,4 @@ variable "azs" {
 variable "azs-variables-ps" {
 	type = "list"
 	default = ["a", "b", "c"]
-}
-
-variable "natgatewayips" {
-    type = "list"
-    default = ["nat-0f44f2bb5741c7154", "nat-008c1de618b7479f5", "nat-0be8df392f05dd54e"]
 }
