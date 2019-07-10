@@ -53,6 +53,6 @@ module "eks-cluster" {
 ```
 ## Other documentation
 
-- [Autoscaling](docs/autoscaling.md): How to enable worker node autoscaling.
-- [Enable Docker Bridge Network](docs/enable-docker-bridge-network.md): How to enable the docker bridge network when using the EKS-optimized AMI, which disables it by default.
+- [Autoscaling](autoscaling.md): How to enable worker node autoscaling.
+- [Enable Docker Bridge Network](bridge-network.md): How to enable the docker bridge network when using the EKS-optimized AMI, which disables it by default.
 
