@@ -1,6 +1,6 @@
 Enable Docker Bridge Network
 The latest versions of the AWS EKS-optimized AMI disable the docker bridge network by default. To enable it, add the bootstrap_extra_args parameter to your worker group template.
-
+```
 locals {
   worker_groups = [
     {
@@ -9,6 +9,8 @@ locals {
     }
   ]
 }
+```
+
 Examples of when this would be necessary are:
 
 You are running Continuous Integration in K8s, and building docker images by either mounting the docker sock as a volume or using docker in docker. Without the bridge enabled, internal routing from the inner container can't reach the outside world.
