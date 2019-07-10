@@ -1,5 +1,5 @@
 # VPC
-resource "aws_vpc" "jd-k8s-vpc" {
+resource "aws_vpc" "eks-vpc" {
   cidr_block       = "${var.vpc_cidr}"
   tags {
    KubernetesCluster = "${var.cluster_name}"
@@ -10,7 +10,7 @@ resource "aws_vpc" "jd-k8s-vpc" {
 
 # Internet Gateway
 resource "aws_internet_gateway" "igw" {
-  vpc_id = "${aws_vpc.jd-k8s-vpc.id}"
+  vpc_id = "${aws_vpc.eks-vpc.id}"
   tags {
     KubernetesCluster = "${var.cluster_name}"
     Name = "${var.cluster_name}"
@@ -33,11 +33,10 @@ resource "aws_nat_gateway" "nat" {
 # Subnets : public
 resource "aws_subnet" "public" {
   count = "${length(var.subnets_cidr)}"
-  vpc_id = "${aws_vpc.jd-k8s-vpc.id}"
+  vpc_id = "${aws_vpc.eks-vpc.id}"
   cidr_block = "${element(var.subnets_cidr,count.index)}"
   availability_zone = "${element(var.azs,count.index)}"
   tags {
-    AssociatedNatgateway  = "${element(var.natgatewayips,count.index)}"
     KubernetesCluster = "${var.cluster_name}"
     Name = "utility-${var.aws_region}${element(var.azs-variables-ps,count.index)}.${var.cluster_name}"
     SubnetType = "Utility"
@@ -49,7 +48,7 @@ resource "aws_subnet" "public" {
 
 # Route table: attach Internet Gateway 
 resource "aws_route_table" "public_rt" {
-  vpc_id = "${aws_vpc.jd-k8s-vpc.id}"
+  vpc_id = "${aws_vpc.eks-vpc.id}"
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.igw.id}"
@@ -73,7 +72,7 @@ resource "aws_route_table_association" "a" {
 # Subnets : private
 resource "aws_subnet" "private" {
   count = "${length(var.private_subnets_cidr)}"
-  vpc_id = "${aws_vpc.jd-k8s-vpc.id}"
+  vpc_id = "${aws_vpc.eks-vpc.id}"
   cidr_block = "${element(var.private_subnets_cidr,count.index)}"
   availability_zone = "${element(var.azs,count.index)}"
   tags {
@@ -91,7 +90,7 @@ resource "aws_subnet" "private" {
 # Define the route table for private subnets
 resource "aws_route_table" "route-nat" {
   count = "${length(var.private_subnets_cidr)}"
-  vpc_id = "${aws_vpc.jd-k8s-vpc.id}"
+  vpc_id = "${aws_vpc.eks-vpc.id}"
 
   tags {
     KubernetesCluster = "${var.cluster_name}"
