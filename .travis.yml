@@ -47,6 +47,6 @@ script:
 notifications:
   email:
     recipients:
-    - brandon@atscale.run
+    - venkat.kristipati@gmail.com
     on_success: change
     on_failure: change
