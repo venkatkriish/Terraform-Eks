@@ -3,6 +3,10 @@ variable "cluster-name" {
   type    = "string"
 }
 
+variable "aws_region" {
+	default = "us-east-1"
+}
+
 variable "master-sg-cidr" {
   default = ["115.249.170.80/28"]
 }
@@ -100,3 +104,68 @@ variable "spotk8stag" {
 variable "spotk8skey" {
   default = "true"
 }
+
+variable "spotk8s-toolstag" {
+  default = "spotinstance"
+}
+variable "spotk8s-toolskey" {
+  default = "true"
+}
+
+variable "need-spot-tool-nodegroup" {
+  default = "false"
+}
+
+variable "spot-tools-instance-type-1" {
+  default = "t2.micro"
+}
+
+variable "spot-tools-instance-type-2" {
+  default = "t2.micro"
+}
+
+variable "spot-tools-instance-type-3" {
+  default = "t2.micro"
+}
+
+variable "spotASGdesired-tools" {
+  default = "1"
+}
+
+variable "spotASGmax-tools" {
+  default = "1"
+}
+
+variable "spotASGmin-tools" {
+  default = "1"
+}
+
+variable "name" {
+  default = "eks-cluster"
+}
+
+variable "enable_dashboard" {
+  default = "0"
+}
+
+variable "enable_calico" {
+  default = "0"
+}
+
+variable "enable_kubectl" {
+  default = "0"
+}
+
+variable "enable_kube2iam" {
+  default = "0"
+}
+
+variable "aws_auth" {
+  default     = ""
+  description = "Grant additional AWS users or roles the ability to interact with the EKS cluster."
+}
+
+
+
+
+

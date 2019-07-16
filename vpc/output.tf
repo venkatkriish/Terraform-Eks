@@ -1,5 +1,5 @@
 output "vpc_id" {
-  value       = "${aws_vpc.eks-vpc.id}"
+  value       = "${aws_vpc.jd-k8s-vpc.id}"
   description = "The ID of the VPC"
 }
 output "private-subnet-ids" {
