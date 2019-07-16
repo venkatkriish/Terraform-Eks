@@ -4,7 +4,7 @@ provider "aws" {
 
 module "platform-vpc" {
   #Replace the URL with the link of your module
-  source = "s3::https://s3-eu-west-1.amazonaws.com/terraform-repo-ireland/vpck8s.zip"
+  source = "./vpc"
   vpc_cidr = "192.20.0.0/16"
   cluster_name = "platform-eks"
   aws_region = "us-east-1"
@@ -14,7 +14,7 @@ module "platform-vpc" {
 }
 module "platform-eks" {
   #Replace the URL with the link of your module
-  source = "s3::https://s3-eu-west-1.amazonaws.com/terraform-repo-ireland/eks-cluster.zip"
+  source = "./eks"
   cluster-name = "platform-eks"
   master-sg-vpc = "${module.platform-vpc.vpc_id}"
   master-subnet-ids = "${module.platform-vpc.public-subnet-ids}"
