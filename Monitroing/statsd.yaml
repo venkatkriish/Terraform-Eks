@@ -1,0 +1,41 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: statsd-app-prometheus-montoring
+  namespace: monitoring
+  labels:
+    k8s-app: statsd
+spec:
+  jobLabel: k8s-app
+  endpoints:
+  - port: admin
+    interval: 30s
+  selector:
+    matchLabels:
+      app: statsd
+  namespaceSelector:
+    matchNames:
+    - statsd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: statsd
+  name: statsd-service-prometheus-discovery
+  labels:
+    k8s-app: statsd
+spec:
+  selector:
+    app: statsd
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - name: incoming-udp
+    port: 8125
+    targetPort: 8125
+    protocol: UDP
+  - name: admin
+    port: 8126
+    protocol: TCP
+    targetPort: 8126
+
